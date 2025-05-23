@@ -9,7 +9,7 @@ export const AdvertPage = () => {
       const [photos, setPhotos] = useState([])
       const [name, setName] = useState("")
       const [description, setDescription] = useState("")
-      const [price, setPrice] = useState(null)
+      const [price, setPrice] = useState(0)
       const [category_id, setCategoryId] = useState(null)
       const {user} = useContext(AuthorizationContext)
       const [categoryArray, setCategoryArray] = useState([])

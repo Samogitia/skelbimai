@@ -44,7 +44,7 @@ export const CreateAd = ({	photos,
 					</Form.Select>
                   	</Form.Group>
 
-				<Button variant="dark" type="button" onClick={addPhoto} className='mb'> Add Photo </Button>
+				<Button variant="dark" type="button" onClick={addPhoto} className='me-4'> Add Photo </Button>
 				{photos.map((url, index) => (
 					
 				<Form.Group key={index} className="mb-3" controlId={`formGroupPhoto${index}`}>
@@ -58,7 +58,7 @@ export const CreateAd = ({	photos,
       			</Form.Group>
 
 				))}
-				<Button variant="dark" type="submit" className='ms-4'>Create Advert</Button>
+				<Button variant="dark" type="submit" className=''>Create Advert</Button>
 				
     			</Form>
 		</div>
