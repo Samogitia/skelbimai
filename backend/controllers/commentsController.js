@@ -1,7 +1,8 @@
 import {    createCommentModel,
             deleteCommentModel,
             getCommentsByIdModel,
-            restoreCommentModel
+            restoreCommentModel,
+            deleteAdminCommentModel
       } from "../models/commentsModels.js";
 
 
@@ -46,8 +47,8 @@ async function getCommentsById(req, res, next) {
 
 
 async function deleteComment(req, res, next) {
-      const {commentId} = req.body
-      console.log(`req.body: ${JSON.stringify(req.body)}`)
+      const {commentId} = req.params
+      console.log(`req.params: ${JSON.stringify(req.params)}`)
 
       if (!commentId) {
             return res.status(400).json({message: "No comment Id."})
@@ -59,6 +60,23 @@ async function deleteComment(req, res, next) {
       }
       catch (error) {
              next(error)
+      }
+}
+
+async function deleteCommentAdmin(req, res, next) {
+      const {commentId} = req.params
+      console.log(`req.params: ${JSON.stringify(req.params)}`)
+
+      if (!commentId) {
+            return res.status(400).json({message: "No comment Id."})
+      }
+
+      try {
+            await deleteAdminCommentModel({commentId})
+            res.status(200).json({message: "comment deleted successfuly"})
+      }
+      catch (error) {
+            next(error)
       }
 }
 
@@ -79,4 +97,4 @@ async function restoreComment(req, res, next) {
       }
 }
 
-export { createComment, getCommentsById, deleteComment, restoreComment }
+export { createComment, getCommentsById, deleteComment, restoreComment, deleteCommentAdmin }

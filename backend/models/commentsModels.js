@@ -15,9 +15,17 @@ async function createCommentModel({advert_id, user_id, comment }) {
 }
 
 async function getCommentsByIdModel({advertId}) {
-      const query = `SELECT id, user_id, comment, created_at, deleted_at
+      const query = `SELECT   comments.id, 
+                              comments.user_id AS "userId",
+                              comment, 
+                              comments.created_at AS "commentCreatedAt", 
+                              comments.deleted_at AS "commentDeletedAt",
+                              users.name AS "userName"
                         FROM comments
-                        WHERE advert_id = $1`
+                              JOIN users
+                                    ON users.id = comments.user_id
+                        WHERE advert_id = $1
+                        ORDER BY comments.created_at`
 
       const values = [advertId]
 
@@ -32,7 +40,7 @@ async function getCommentsByIdModel({advertId}) {
 
 
 async function deleteCommentModel({commentId}) {
-      const query = `UPDATE comments (deleted_at)
+      const query = `UPDATE comments
                         SET deleted_at = NOW()
                         WHERE id = $1`
 
@@ -46,9 +54,23 @@ async function deleteCommentModel({commentId}) {
       }
 }
 
+async function deleteAdminCommentModel({commentId}) {
+      const query = `DELETE FROM comments
+                        WHERE id = $1`
+
+      const values = [commentId]
+
+      try {
+            await pool.query(query, values)
+      }
+      catch (error) {
+            console.log("Error deleting (admin) comment", error)
+      }
+} 
+
 
 async function restoreCommentModel({commentId}) {
-      const query = `UPDATE comments (deleted_at)
+      const query = `UPDATE comments
                         SET deleted_at = NULL
                         WHERE id = $1`
 
@@ -63,4 +85,4 @@ async function restoreCommentModel({commentId}) {
 }
 
 
-export {createCommentModel, deleteCommentModel, getCommentsByIdModel, restoreCommentModel}
+export {createCommentModel, deleteCommentModel, getCommentsByIdModel, restoreCommentModel, deleteAdminCommentModel}

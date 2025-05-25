@@ -38,9 +38,21 @@ async function getAllCommentsByIdAPI(advertId) {
       return result
 }
 
-async function deleteCommentAPI(comment_id) {
+async function deleteCommentAPI(commentId) {
       const token = localStorage.getItem("token")
-      const result = await commentAPI(() => axios.delete("/api/comments/delete", {comment_id},
+      const result = await commentAPI(() => axios.delete(`/api/comments/delete/${commentId}`,
+            {
+                  headers: {
+                        Authorization: `Bearer ${token}`
+                  }
+            }
+      ))
+      return result
+}
+
+async function deleteCommentAdminAPI(commentId) {
+      const token = localStorage.getItem("token")
+      const result = await commentAPI(() => axios.delete(`/api/comments/deletefull/${commentId}`,
             {
                   headers: {
                         Authorization: `Bearer ${token}`
@@ -62,4 +74,4 @@ async function restoreCommentAPI(commentId) {
       return result
 }
 
-export { createCommentAPI, getAllCommentsByIdAPI, deleteCommentAPI, restoreCommentAPI}
+export { createCommentAPI, getAllCommentsByIdAPI, deleteCommentAPI, restoreCommentAPI, deleteCommentAdminAPI}

@@ -24,6 +24,7 @@ async function getAllAdvertsModel() {
                               adverts.description,
                               categories.name AS category_name,
                               adverts.price,
+                              adverts.user_id AS "userId",
                               users.name AS user_name,
                               adverts.created_at
                               FROM adverts

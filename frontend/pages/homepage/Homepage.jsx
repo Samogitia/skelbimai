@@ -4,7 +4,7 @@ import { getAllAdvertsAPI } from '../../services/advertsAPI'
 import { AdvertCards } from './advertCards'
 import { AdvertInfo } from '../../components/AdvertInfo'
 import { getPhotosAPI } from '../../services/photosAPI'
-import { getAllCommentsByIdAPI, createCommentAPI, deleteCommentAPI } from '../../services/commentsAPI'
+import { getAllCommentsByIdAPI, createCommentAPI, deleteCommentAPI, restoreCommentAPI, deleteCommentAdminAPI } from '../../services/commentsAPI'
 
 export const Homepage = () => {
 	const {user} = useContext(AuthorizationContext)
@@ -14,11 +14,6 @@ export const Homepage = () => {
 	const [comment, setComment] = useState("")
 	const [infoAdvert, setInfoAdvert] = useState(null)
 	
-	useEffect(() => {
-		if (infoAdvert) {
-			getComments(infoAdvert.id)
-		}
-	},[infoAdvert])
 	
 	useEffect(() => {
 		getAds()
@@ -41,6 +36,7 @@ export const Homepage = () => {
 		setCommentArray([])
 		console.log(infoAdvert)
 		console.log(commentsArray)
+		getComments(advert.id)
 	}
 
 	async function getComments(advertId) {
@@ -66,6 +62,32 @@ export const Homepage = () => {
 	}
 
 
+	async function deleteComment(commentId, userId) {
+		if (infoAdvert.userId === user.id || user.status === "admin" || user.id === userId) {
+			const res = await deleteCommentAPI(commentId)
+			if (res.success) {
+				getComments(infoAdvert.id)
+			}
+		}
+	}
+
+	async function deleteCommentAdmin(commentId) {
+		if (user.status === "admin") {
+			const res = await deleteCommentAdminAPI(commentId)
+			if (res.success) {
+				getComments(infoAdvert.id)
+			}
+		}
+	}
+
+	async function restoreComment(commentId, userId) {
+		if (infoAdvert.userId === user.id || user.status === "admin" || user.id === userId) {
+			const res = await restoreCommentAPI(commentId)
+			if (res.success) {
+				getComments(infoAdvert.id)
+			}
+		}	}
+
 
 
 return (
@@ -81,6 +103,9 @@ return (
 					getComments={getComments}
 					comment={comment}
 					commentsArray={commentsArray}
+					deleteComment={deleteComment}
+					restoreComment={restoreComment}
+					deleteCommentAdmin={deleteCommentAdmin}
 		/>):
 		(null)}
     	</div>
