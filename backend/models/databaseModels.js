@@ -24,8 +24,8 @@ async function usersTableModel() {
 async function commentsTableModel() {
       const query = `CREATE TABLE IF NOT EXISTS comments (
                         id                SERIAL PRIMARY KEY,
-                        advert_id         INT NOT NULL UNIQUE,
-                        user_id           INT NOT NULL UNIQUE,
+                        advert_id         INT NOT NULL,
+                        user_id           INT NOT NULL,
                         comment           TEXT NOT NULL,
                         created_at        TIMESTAMP NOT NULL DEFAULT NOW(),
                         deleted_at        TIMESTAMP

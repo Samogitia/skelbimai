@@ -6,17 +6,17 @@ import {    createCommentModel,
 
 
 async function createComment(req, res, next) {
-      const {advert_id, user_id, comment} = req.body
+      const {advertId, userId, comment} = req.body
       console.log(`req.body: ${JSON.stringify(req.body)}`)
 
-      if (!advert_id || !user_id || !comment) {
+      if (!advertId || !userId || !comment) {
             return res.status(400).json({message: "Incomplete comment data."})
       }
 
       try {
             await createCommentModel({
-                  advert_id,
-                  user_id,
+                  advert_id: advertId,
+                  user_id: userId,
                   comment
             })
 
@@ -28,15 +28,15 @@ async function createComment(req, res, next) {
 }
 
 async function getCommentsById(req, res, next) {
-      const {advert_id} = req.body
-      console.log(`req.body: ${JSON.stringify(req.body)}`)
+      const {advertId} = req.params
+      console.log(`req.params: ${JSON.stringify(req.params)}`)
 
-      if (!advert_id) {
+      if (!advertId) {
             return res.status(400).json({message: "No advert Id."})
       }
 
       try {
-            const comments = await getCommentsByIdModel({advert_id})
+            const comments = await getCommentsByIdModel({advertId})
             res.status(200).json(comments)
       }
       catch (error) {

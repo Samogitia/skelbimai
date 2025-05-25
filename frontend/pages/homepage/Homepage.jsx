@@ -11,8 +11,18 @@ export const Homepage = () => {
 	const [advertsArray, setAdvertsArray] = useState([])
 	const [pageState, setPageState] = useState("display")
 	const [commentsArray, setCommentArray] = useState([])
+	const [comment, setComment] = useState("")
 	const [infoAdvert, setInfoAdvert] = useState(null)
-
+	
+	useEffect(() => {
+		if (infoAdvert) {
+			getComments(infoAdvert.id)
+		}
+	},[infoAdvert])
+	
+	useEffect(() => {
+		getAds()
+	},[])
 	
 	async function getAds() {
 		const res = await getAllAdvertsAPI()
@@ -24,15 +34,17 @@ export const Homepage = () => {
 			alert(res.message)
 		}
 	}
-
+	
 	function showInfo(advert) {
-		setPageState("info")
 		setInfoAdvert(advert)
+		setPageState("info")
+		setCommentArray([])
 		console.log(infoAdvert)
+		console.log(commentsArray)
 	}
 
-	async function getComments(advert_id) {
-		const comments = await getAllCommentsByIdAPI(advert_id)
+	async function getComments(advertId) {
+		const comments = await getAllCommentsByIdAPI(advertId)
 		
 		if (comments.success) {
 			setCommentArray(comments.data)
@@ -42,28 +54,34 @@ export const Homepage = () => {
 		}
 	}
 
-	// async function getPhoto(id) {
-	// 	const res = await getPhotosAPI(id)
-	// 	console.log(res.data)
-	// 	if (res.success) {
-	// 		setPhotos(res.data)
-	// 		return res.data[0]
-	// 	}
-	// 	else {
-	// 		alert(res.message)
-	// 	}
-	// }
+	async function submitComment(advertId) {
+		event.preventDefault()
+		if (comment != "") {
+			const res = await createCommentAPI(advertId, user.id, comment)
+			if (res.success) {
+				setComment("")
+				getComments(advertId)
+			}
+		}
+	}
 
-	useEffect(() => {
-		getAds()
-	},[])
+
+
 
 return (
     	<div>
 		{pageState === "display" ?
 		(<AdvertCards advertsArray={advertsArray} showInfo={showInfo} />):
 		pageState === "info" ?
-		(<AdvertInfo setPageState={setPageState} infoAdvert={infoAdvert} />):
+		(<AdvertInfo 	setPageState={setPageState} 
+					infoAdvert={infoAdvert} 
+					user={user} 
+					submitComment={submitComment} 
+					setComment={setComment}
+					getComments={getComments}
+					comment={comment}
+					commentsArray={commentsArray}
+		/>):
 		(null)}
     	</div>
   	)

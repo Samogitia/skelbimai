@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Image from 'react-bootstrap/Image'
-import ListGroupItem from 'react-bootstrap/esm/ListGroupItem'
+import Form from 'react-bootstrap/Form'
 
-export const AdvertInfo = ({setPageState, infoAdvert}) => {
+export const AdvertInfo = ({setPageState, infoAdvert, user, submitComment, setComment, comment, commentsArray}) => {
       const [showMorePhotos, setShowMorePhotos] = useState(false)
 
       function showPhoto() {
@@ -36,7 +36,7 @@ export const AdvertInfo = ({setPageState, infoAdvert}) => {
                         </ListGroup>
                   {showMorePhotos && ( 
                         <div> 
-                        {infoAdvert?.photoUrls.map((url, index) => <Image key={index} thumbnail variant="top" src={url.photo_url} style={{width: "45vw", objectFit: "fill"}}/>)}
+                        {infoAdvert?.photoUrls.map((url, index) => <Image key={index} thumbnail variant="top" src={url.photo_url} style={{width: "40vw", objectFit: "fill"}}/>)}
                         <Button onClick={showPhoto}>Hide Photos</Button>
                         </div>
                   )} 
@@ -44,9 +44,36 @@ export const AdvertInfo = ({setPageState, infoAdvert}) => {
          
             </div>
                   <div>
+                        <div>
+                              {commentsArray.map((com, index) => (
+                                    <Card key={com.id} className={`mb-2 p-2 rounded ${com.user_id === user.id
+                                          ? 'bg-primary text-white ms-auto'
+                                          : 'bg-light text-dark me-auto'
+                                          }`}
+                                          style={{
+                                          maxWidth: '70%',
+                                          // Align user's own comments to the right
+                                          marginLeft: com.user_id === user.id ? 'auto' : 0,
+                                          marginRight: com.user_id !== user.id ? 'auto' : 0,
+                                          }}>
+                                          <Card.Header> {`#${index+1} By user: ${com.user_id} Posted at: ${new Date(com.created_at).toLocaleString}`}</Card.Header>
+                                          <Card.Body>
+                                                <blockquote className='blockquote mb-0'>
+                                                      <p className="fw-bold">{com.comment}</p>
+                                                </blockquote>
+                                          </Card.Body>
+                                    </Card>     
+                              ))}
+                        </div>
                         
-                        <div style={{width: "30vw"}} className='me-4 mb-5 commentDiv'>comments
-
+                        <div style={{width: "40vw"}} className='me-4 mb-5 commentDiv'>comments
+                              <Form onSubmit={() => submitComment(infoAdvert.id)}>
+                                    <Form.Group className="mb-3" controlId="ControlTextarea">
+                                    <Form.Label>Example textarea</Form.Label>
+                                    <Form.Control onChange={(e) => setComment(e.target.value)} as="textarea" rows={3} placeholder='comment..' value={comment}/>
+                                    </Form.Group>
+                                    <Button type="submit" className='mb-5'>Post</Button>
+                              </Form>
                         </div>
 
                   </div> 

@@ -7,7 +7,7 @@ const commentsRouter = express.Router()
 
 commentsRouter.route("/create").post(authUser, createComment)
 commentsRouter.route("/delete").delete(authUser, deleteComment)
-commentsRouter.route("/get").get(authUser, getCommentsById)
+commentsRouter.route("/get/:advertId").get(authUser, getCommentsById)
 commentsRouter.route("/restore").put(authUser, authAdmin, restoreComment)
 
 export default commentsRouter

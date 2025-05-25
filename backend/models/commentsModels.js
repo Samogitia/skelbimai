@@ -14,12 +14,12 @@ async function createCommentModel({advert_id, user_id, comment }) {
       }
 }
 
-async function getCommentsByIdModel({advert_id}) {
-      const query = `SELECT id, user_id, comment
+async function getCommentsByIdModel({advertId}) {
+      const query = `SELECT id, user_id, comment, created_at, deleted_at
                         FROM comments
                         WHERE advert_id = $1`
 
-      const values = [advert_id]
+      const values = [advertId]
 
       try {
             const comments = await pool.query(query, values)
@@ -36,7 +36,7 @@ async function deleteCommentModel({commentId}) {
                         SET deleted_at = NOW()
                         WHERE id = $1`
 
-      const values = [comment_id]
+      const values = [commentId]
 
       try {
             await pool.query(query, values)
