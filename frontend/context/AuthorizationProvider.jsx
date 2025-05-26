@@ -55,6 +55,7 @@ export const AuthorizationProvider = ({children}) => {
                         navigate("/home", {replace: true})
                   }
                   else {
+                        alert(res.message)
                         localStorage.removeItem("token")
                   }
       }

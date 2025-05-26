@@ -31,11 +31,24 @@ async function userVerifyModel({email}) {
       }
 }
 
-async function userDeleteModel({id}) {
+async function userGetAllModel() {
+      const query = `SELECT *
+                        FROM users`
+
+      try {
+            const users = await pool.query(query)
+            return users.rows
+      }
+      catch (error) {
+            console.log("Error geting users", error)
+      }
+}
+
+async function userDeleteFullModel({userId}) {
       const query = `DELETE FROM users
                         WHERE id = $1`
 
-      const values = [id]
+      const values = [userId]
 
       try {
             await pool.query(query, values)
@@ -45,4 +58,38 @@ async function userDeleteModel({id}) {
       }
 }
 
-export { userCreateModel, userDeleteModel, userVerifyModel }
+async function userDeleteModel({userId}) {
+      const query = `UPDATE users
+                        SET   deleted_at = NOW(),
+                              status = 'deleted'
+                        WHERE id = $1`
+
+      const values = [userId]
+
+      try {
+            await pool.query(query, values)
+      }
+      catch (error) {
+            console.log("Error deleting user(soft)", error)
+      }
+}
+
+async function restoreUserModel({userId}) {
+      const query = `UPDATE users
+                        SET   deleted_at = NULL,
+                              status = 'user'
+                        WHERE id = $1`
+
+      const values = [userId]
+
+      try {
+            await pool.query(query, values)
+      }
+      catch (error) {
+            console.log("Error restoring user", error)
+      }
+}
+
+
+
+export { userCreateModel, userDeleteFullModel, userDeleteModel, userVerifyModel, userGetAllModel, restoreUserModel }

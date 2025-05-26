@@ -8,6 +8,7 @@ import categoryRouter from '../routes/categoryRouter.js'
 import advertRouter from '../routes/advertRouter.js'
 import photoRouter from '../routes/photoRouter.js'
 import commentsRouter from '../routes/commentRouter.js'
+import favoriteRouter from '../routes/favoriteRouter.js'
 
 
 const app = express()
@@ -27,6 +28,7 @@ app.use("/categories", categoryRouter)
 app.use("/adverts", advertRouter)
 app.use("/photos", photoRouter)
 app.use("/comments", commentsRouter)
+app.use("/favorite", favoriteRouter)
 
 app.use(errorHandler)
 

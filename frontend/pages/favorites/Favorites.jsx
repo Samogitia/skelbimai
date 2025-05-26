@@ -2,14 +2,14 @@ import React, {useState, useEffect, useContext} from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AuthorizationContext } from '../../context/authorizationProvider'
 import { getAllAdvertsAPI } from '../../services/advertsAPI'
-import { AdvertCards } from './advertCards'
+import { AdvertsFavorites } from './AdvertsFavorites'
 import { AdvertInfo } from '../../components/AdvertInfo'
 import  Spinner from 'react-bootstrap/Spinner'
 import { getAllCommentsByIdAPI, createCommentAPI, deleteCommentAPI, restoreCommentAPI, deleteCommentAdminAPI } from '../../services/commentsAPI'
 import { searchAdvertsAPI } from '../../services/searchAPI'
 import { favoriteAddAPI, favoriteRemoveAPI, favoriteGetAPI } from '../../services/favoriteAPI'
 
-export const Homepage = () => {
+export const Favorites = () => {
 	const {user} = useContext(AuthorizationContext)
 	const [advertsArray, setAdvertsArray] = useState([])
 	const [pageState, setPageState] = useState("display")
@@ -154,7 +154,7 @@ export const Homepage = () => {
 return (
     	<div>
 		{pageState === "display" ?
-		(<AdvertCards advertsArray={advertsArray} showInfo={showInfo} addFavorite={addFavorite} removeFavorite={removeFavorite} favoritedAdverts={favoritedAdverts} />):
+		(<AdvertsFavorites advertsArray={advertsArray} showInfo={showInfo} addFavorite={addFavorite} removeFavorite={removeFavorite} favoritedAdverts={favoritedAdverts} />):
 		pageState === "info" ?
 		(<AdvertInfo 	setPageState={setPageState} 
 					infoAdvert={infoAdvert} 

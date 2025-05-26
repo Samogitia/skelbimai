@@ -48,7 +48,7 @@ export const AdvertInfo = ({  setPageState,
                         </ListGroup>
                   {showMorePhotos && ( 
                         <div> 
-                        {infoAdvert?.photoUrls.map((url, index) => <Image key={index} thumbnail variant="top" src={url.photo_url} style={{width: "40vw", objectFit: "fill"}}/>)}
+                        {infoAdvert?.photoUrls.map((url, index) => <Image key={index} thumbnail variant="top" src={url.photo_url} style={{width: "45vw", objectFit: "fill"}}/>)}
                         <Button onClick={showPhoto}>Hide Photos</Button>
                         </div>
                   )} 
@@ -135,10 +135,9 @@ export const AdvertInfo = ({  setPageState,
                               ))}
                         </div>
                         
-                        <div style={{width: "40vw"}} className='me-4 mb-5 commentDiv'>comments
+                        <div style={{width: "40vw"}} className='me-4 mb-5 commentDiv'>
                               <Form onSubmit={() => submitComment(infoAdvert.id)}>
                                     <Form.Group className="mb-3" controlId="ControlTextarea">
-                                    <Form.Label>Example textarea</Form.Label>
                                     <Form.Control onChange={(e) => setComment(e.target.value)} as="textarea" rows={3} placeholder='comment..' value={comment}/>
                                     </Form.Group>
                                     <Button type="submit" className='mb-5'>Post</Button>

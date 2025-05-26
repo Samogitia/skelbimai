@@ -8,6 +8,8 @@ import { AuthorizationContext } from '../context/authorizationProvider'
 import { Homepage } from '../pages/homepage/Homepage'
 import { Layout } from '../components/Layout'
 import { AdvertPage } from '../pages/adverts/AdvertPage'
+import { Admin } from '../pages/admin/Admin'
+import { Favorites } from '../pages/favorites/Favorites'
 
 function AuthUserRoute({children}) {
 	const { user, loading } = useContext(AuthorizationContext)
@@ -44,6 +46,8 @@ function App() {
 				<Route index element={<Homepage/>}/>
 				<Route path='home' element={<Homepage/>}/>
 				<Route path='createAd' element={<AdvertPage/>}/>
+				<Route path='favorites' element={<Favorites/>}/>
+				<Route path='admin' element={<AuthAdminRoute><Admin/></AuthAdminRoute>}/>
 			</Route>
 		</Routes>  
     	</>

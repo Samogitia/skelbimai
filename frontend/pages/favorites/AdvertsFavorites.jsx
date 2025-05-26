@@ -5,7 +5,7 @@
  import Figure from 'react-bootstrap/Figure'
 import FigureCaption from 'react-bootstrap/esm/FigureCaption'
  
- export const AdvertCards = ({advertsArray, showInfo, favoritedAdverts, addFavorite, removeFavorite}) => {
+ export const AdvertsFavorites = ({advertsArray, showInfo, favoritedAdverts, addFavorite, removeFavorite}) => {
 
       const isFavorited = ((favoritedAds, advert) => {
             const exists = favoritedAds.some((favorited) => favorited.id === advert.id)
@@ -23,18 +23,11 @@ import FigureCaption from 'react-bootstrap/esm/FigureCaption'
    return (
      <div data-bs-theme="dark" className='d-flex mx-auto mt-3 p-4' style={{maxWidth: "100vw", maxHeight: "90vh", tableLayout: "auto"}}>
             <div  className='flex-grow-1 d-flex justify-content-center flex-wrap overflow-auto advertCard'>
-                  {/* {console.log("ratedMechanics:", ratedMechanics)} */}
-                  {advertsArray.map((advert) =>  (
+                  {favoritedAdverts.map((advert) =>  (
                   <Card  key={advert.id} style={{width: "20vw"}} className='me-4 mb-5'>
                         <Card.Img onClick={() => showInfo(advert)} variant="top" src={advert?.photoUrls[0]?.photo_url || null} style={{height: "25vh", objectFit: "cover"}}/>
-                        {/* <Figure>
-                        <Figure.Image variant="top" src={advert?.photoUrls[0]?.photo_url || null} style={{height: "25vh",width: "100%", objectFit: "cover"}}/>
-                        <FigureCaption> </FigureCaption>
-                        </Figure> */}
-
                         <Card.Body >
                               <Card.Title>{advert.advert_name}</Card.Title>
-                              {/* <Card.Title>{advert.description}</Card.Title> */}
                               <Card.Text>
                               </Card.Text>
                         </Card.Body>

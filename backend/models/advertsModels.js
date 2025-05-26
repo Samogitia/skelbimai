@@ -19,19 +19,31 @@ async function createAdvertModel({name, description, category_id, price, user_id
 
 async function getAllAdvertsModel() {
       
-      const query = `SELECT   adverts.id,
+      const query = `SELECT     adverts.id,
                               adverts.name AS advert_name,
                               adverts.description,
                               categories.name AS category_name,
                               adverts.price,
                               adverts.user_id AS "userId",
                               users.name AS user_name,
-                              adverts.created_at
+                              adverts.created_at,
+                              COUNT (favorites.advert_id) AS rating
                               FROM adverts
                                     JOIN categories
                                           ON adverts.category_id = categories.id
                                     JOIN users
                                           ON adverts.user_id = users.id
+                                    LEFT JOIN favorites
+                                          ON favorites.advert_id = adverts.id
+                                GROUP BY
+                                    adverts.id,
+                                    advert_name,
+                                    adverts.description,
+                                    category_name,
+                                    adverts.price,
+                                    "userId",
+                                    user_name,
+                                    adverts.created_at
                               ORDER BY adverts.created_at`
 
       try {

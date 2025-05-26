@@ -16,11 +16,13 @@ export const LoginPage = () => {
       async function submitLogin(event) {
             event.preventDefault()
             try {
-                  await login(email, password)    
+                  const res = await login(email, password)    
             }
             catch (error) {
                   console.log("Error LoginPage/submitLogin",error )
+                  alert(res.message)
             }
+
       }
 
       async function submitRegister(event) {
