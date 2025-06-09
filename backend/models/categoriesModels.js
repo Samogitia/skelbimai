@@ -15,4 +15,19 @@ async function categoriesGetAllModel() {
       }
 }
 
-export { categoriesGetAllModel }
+async function categoryCreateModel({category}) {
+      const query = `INSERT INTO categories (name)
+                        VALUES ($1)`
+
+      const values = [category]
+
+      try {
+            await pool.query(query, values)
+      }
+      catch (error) {
+            console.log("Error creating category model error", error)
+            throw Error
+      }
+}
+
+export { categoriesGetAllModel, categoryCreateModel }

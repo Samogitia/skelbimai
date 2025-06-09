@@ -48,10 +48,6 @@ export const AdvertPage = () => {
             const user_id = user.id
             const filteredPhotos = photos.filter(url => url.trim() !== "")
             const res = await createAdvertAPI(name, description, category_id, price, user_id, filteredPhotos)
-            if (res.success) {
-                  alert(res.message)
-            }
-            console.log(res.message)
       }
 
 

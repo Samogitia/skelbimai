@@ -90,6 +90,24 @@ async function restoreUserModel({userId}) {
       }
 }
 
+async function userEditModel({id, name, last_name, email, status, password_h}) {
+      const query = `UPDATE ONLY users
+                        SET   name = $2,
+                              last_name = $3,
+                              email = $4,
+                              status = COALESCE($5, status),
+                              password_h = COALESCE($6, password_h)
+                        WHERE id = $1`
+
+      const values = [id, name, last_name, email, status, password_h]
+      try {
+            const result = await pool.query(query, values)
+            return result
+      }
+      catch (error) {
+            console.log("Error updating user", error)
+      }
+}
 
 
-export { userCreateModel, userDeleteFullModel, userDeleteModel, userVerifyModel, userGetAllModel, restoreUserModel }
+export { userCreateModel, userDeleteFullModel, userDeleteModel, userVerifyModel, userGetAllModel, restoreUserModel, userEditModel }

@@ -4,7 +4,8 @@ import {
       userGetAllModel,
       userDeleteModel,
       userDeleteFullModel,
-      restoreUserModel
+      restoreUserModel,
+      userEditModel
       } from '../models/usersModels.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -89,6 +90,43 @@ async function getAllUsers(req, res, next) {
       }
 }
 
+async function userEdit(req, res, next) {
+      const {id, name, last_name, email, status, password} = req.body
+     console.log(`req.body: ${JSON.stringify(req.body)}`)
+     try {
+           if (!id ||
+               !name ||
+               !last_name ||
+               !email ||
+               !status) {
+                 
+                 const error = new Error("Blogi vartotojo duomenys")
+                 return next(error)
+           }
+
+           let hashed_psw = null
+
+           if (password) {
+                 const salt = await bcrypt.genSalt(10)
+                 hashed_psw = await bcrypt.hash(password, salt)
+           }
+
+            await userEditModel({
+                 id,
+                 name,
+                 last_name,
+                 email,
+                 status,
+                 password_h: hashed_psw
+           })
+
+           return res.status(200).json({message: "User updated"})
+     }
+     catch (error) {
+           next(error)
+     }
+}
+
 async function userDelete(req, res, next) {
       const {userId} = req.params
       console.log(`req.body: ${JSON.stringify(req.params)}`)
@@ -140,4 +178,4 @@ async function restoreUser(req, res, next) {
       }
 }
 
-export {userCreate, userLogin, userDelete, userDeleteFull, getAllUsers, restoreUser}
+export {userCreate, userLogin, userDelete, userDeleteFull, getAllUsers, restoreUser, userEdit}

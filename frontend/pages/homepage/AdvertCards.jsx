@@ -1,11 +1,11 @@
- import React from 'react'
+ import React, {useContext} from 'react'
  import Card from 'react-bootstrap/Card'
  import Button from 'react-bootstrap/Button'
  import ListGroup from 'react-bootstrap/ListGroup'
  import Figure from 'react-bootstrap/Figure'
 import FigureCaption from 'react-bootstrap/esm/FigureCaption'
  
- export const AdvertCards = ({advertsArray, showInfo, favoritedAdverts, addFavorite, removeFavorite}) => {
+ export const AdvertCards = ({advertsArray, showInfo, favoritedAdverts, addFavorite, removeFavorite, deleteAd, user}) => {
 
       const isFavorited = ((favoritedAds, advert) => {
             const exists = favoritedAds.some((favorited) => favorited.id === advert.id)
@@ -44,7 +44,9 @@ import FigureCaption from 'react-bootstrap/esm/FigureCaption'
                               <ListGroup.Item>Price: {advert.price}</ListGroup.Item>
                               <ListGroup.Item>Created by: {advert.user_name}</ListGroup.Item>
                               <ListGroup.Item>Added: {new Date(advert.created_at).toLocaleDateString()}</ListGroup.Item>
-                              <ListGroup.Item>Rating: {advert.rating}  <Button className={isFavorited(favoritedAdverts, advert)} onClick={() => toggleFavorited(advert.id)}>&#9733;</Button></ListGroup.Item>
+                              <ListGroup.Item>Rating: {advert.rating}  <Button className={isFavorited(favoritedAdverts, advert)} onClick={() => toggleFavorited(advert.id)}>&#9733;</Button>
+                              {user.status === 'admin' && <Button className='ms-2' onClick={() => deleteAd(advert.id)}>Delete</Button>}
+                              </ListGroup.Item>
                         </ListGroup>
                   </Card>
                   ))}

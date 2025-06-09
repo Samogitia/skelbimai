@@ -62,7 +62,7 @@ export const NavbarUser = () => {
 			<Navbar.Brand>Adverts</Navbar.Brand>
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav"> 
-					<Nav className="me-auto" variant="pills" defaultActiveKey="/home">
+					<Nav className="me-auto" defaultActiveKey="/home">
 						<Nav.Link as={NavLink} to="/home">Home</Nav.Link>
 						<Nav.Link as={NavLink} to="/createAd">CreateAd</Nav.Link>
 						<Nav.Link as={NavLink} to="/favorites">Favorites</Nav.Link>

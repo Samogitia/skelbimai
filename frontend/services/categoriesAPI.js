@@ -27,6 +27,17 @@ async function getCategoriesAPI() {
       return result
 }
 
+async function categoryCreateAPI(category) {
+      const token = localStorage.getItem("token")
+      const result = await categoryAPI(() => axios.post("/api/categories/create", {category},
+            {
+                  headers: {
+                        Authorization: `Bearer ${token}`
+                  }
+            }))
+            return result
+}
+
 getCategoriesAPI()
 
-export { getCategoriesAPI }
+export { getCategoriesAPI, categoryCreateAPI }

@@ -76,8 +76,8 @@ async function searchAdverts(req, res, next) {
 
 
 async function deleteAdvert(req, res, next) {
-      const { id } = req.body
-      console.log(`req.body: ${JSON.stringify(req.body)}`)
+      const { id } = req.params
+      console.log(`req.body: ${JSON.stringify(req.params)}`)
 
       if (!id) {
             return res.status(400).json({message: "No advert id."})

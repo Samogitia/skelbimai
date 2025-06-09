@@ -16,7 +16,8 @@ export const AdvertInfo = ({  setPageState,
                               commentsArray, 
                               deleteComment, 
                               restoreComment,
-                              deleteCommentAdmin
+                              deleteCommentAdmin,
+                              deleteAd
                         }) => {
       const [showMorePhotos, setShowMorePhotos] = useState(false)
 
@@ -44,6 +45,8 @@ export const AdvertInfo = ({  setPageState,
                         <ListGroup.Item>
                               <Button onClick={showPhoto} style={{width: "7vw"}} className='me-3'>More Photos</Button>
                               <Button onClick={() => setPageState("display")} style={{width: "7vw"}}>Back</Button>
+                              {user.status === 'admin' && <Button className='ms-2' onClick={() => deleteAd(infoAdvert.id)}>Delete</Button>}
+
                               </ListGroup.Item>
                         </ListGroup>
                   {showMorePhotos && ( 

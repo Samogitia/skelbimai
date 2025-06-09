@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AuthorizationContext } from '../../context/authorizationProvider'
-import { getAllAdvertsAPI } from '../../services/advertsAPI'
+import { getAllAdvertsAPI, deleteAdvertAPI } from '../../services/advertsAPI'
 import { AdvertCards } from './advertCards'
 import { AdvertInfo } from '../../components/AdvertInfo'
 import  Spinner from 'react-bootstrap/Spinner'
@@ -91,6 +91,11 @@ export const Homepage = () => {
 		}
 	}
 
+	async function deleteAd(id) {
+		await deleteAdvertAPI(id)
+		getAds()
+	}
+
 
 	async function deleteComment(commentId, userId) {
 		if (infoAdvert.userId === user.id || user.status === "admin" || user.id === userId) {
@@ -154,7 +159,7 @@ export const Homepage = () => {
 return (
     	<div>
 		{pageState === "display" ?
-		(<AdvertCards advertsArray={advertsArray} showInfo={showInfo} addFavorite={addFavorite} removeFavorite={removeFavorite} favoritedAdverts={favoritedAdverts} />):
+		(<AdvertCards advertsArray={advertsArray} showInfo={showInfo} addFavorite={addFavorite} removeFavorite={removeFavorite} favoritedAdverts={favoritedAdverts} deleteAd={deleteAd} user={user} />):
 		pageState === "info" ?
 		(<AdvertInfo 	setPageState={setPageState} 
 					infoAdvert={infoAdvert} 
@@ -167,6 +172,7 @@ return (
 					deleteComment={deleteComment}
 					restoreComment={restoreComment}
 					deleteCommentAdmin={deleteCommentAdmin}
+					deleteAd={deleteAd}
 		/>):
 		(<Spinner animation="border" variant="dark"/>)}
     	</div>

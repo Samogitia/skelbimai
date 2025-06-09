@@ -26,7 +26,6 @@ async function userLoginAPI(email, password) {
 async function userRegisterAPI(name, last_name, email, status, password) {
       const result = await userAPI(() => axios.post("/api/users/create", {name, last_name, email, status, password}))
       return result
-      
 }
 
 async function userDeleteAPI(userId) {
@@ -77,4 +76,15 @@ async function restoreUserAPI(userId) {
       return result
 }
 
-export { userLoginAPI, userRegisterAPI, userDeleteAPI, userGetAllAPI, userDeleteFullAPI, restoreUserAPI }
+const updateUserAPI = async ({id, name, last_name, email, status, password}) => {
+      const token = localStorage.getItem('token')
+      const res = await axios.put("/api/users/edit", {id, name, last_name, email, status, password},
+      {
+            headers: {
+                        Authorization: `Bearer ${token}`
+                  }
+      })
+      return res
+}
+
+export { userLoginAPI, userRegisterAPI, userDeleteAPI, userGetAllAPI, userDeleteFullAPI, restoreUserAPI, updateUserAPI }

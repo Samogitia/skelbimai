@@ -10,6 +10,9 @@ import { Layout } from '../components/Layout'
 import { AdvertPage } from '../pages/adverts/AdvertPage'
 import { Admin } from '../pages/admin/Admin'
 import { Favorites } from '../pages/favorites/Favorites'
+import { Users } from '../pages/users/Users'
+import { AdminLayout } from '../components/AdminLayout'
+import { Categories } from '../pages/categories/Categories'
 
 function AuthUserRoute({children}) {
 	const { user, loading } = useContext(AuthorizationContext)
@@ -47,7 +50,10 @@ function App() {
 				<Route path='home' element={<Homepage/>}/>
 				<Route path='createAd' element={<AdvertPage/>}/>
 				<Route path='favorites' element={<Favorites/>}/>
-				<Route path='admin' element={<AuthAdminRoute><Admin/></AuthAdminRoute>}/>
+				<Route path='admin' element={<AuthAdminRoute><AdminLayout/></AuthAdminRoute>}>
+					<Route path='/admin/users' element={<Users/>} />
+					<Route path='/admin/categories' element={<Categories/>}/>
+				</Route>
 			</Route>
 		</Routes>  
     	</>

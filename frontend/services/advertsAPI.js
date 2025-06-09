@@ -38,4 +38,15 @@ async function getAllAdvertsAPI() {
       return result
 }
 
-export {createAdvertAPI, getAllAdvertsAPI}
+async function deleteAdvertAPI(id) {
+      const token = localStorage.getItem("token")
+      const result = await advertAPI(() => axios.delete(`/api/adverts/delete/${id}`,
+            {
+                  headers: {
+                        Authorization: `Bearer ${token}`
+                  }
+            }))
+            return result
+}
+
+export {createAdvertAPI, getAllAdvertsAPI, deleteAdvertAPI}
